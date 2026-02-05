@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+import urllib.request
 import pandas as pd
 import pydeck as pdk
 from search_utils import (
@@ -21,12 +23,19 @@ st.title("🏠 Airbnb Marketplace Search")
 st.markdown("Cities available: London, Barcelona, Rome, Amsterdam")
 st.markdown("Search rental listings using **LLM-free local intent extraction + embeddings**.")
 
-# ------------------------------------------------------------
-# Load Data (Cached)
-# ------------------------------------------------------------
+DATA_PATH = "data/processed/all_listings.pkl"
+DATA_URL = "https://huggingface.co/datasets/cankarakoc/ai-marketplace-search/resolve/main/all_listings.pkl"
+
+os.makedirs("data/processed", exist_ok=True)
+
 @st.cache_data
 def load_data():
-    return pd.read_pickle("data/processed/all_listings.pkl")
+    if not os.path.exists(DATA_PATH):
+        st.info("Downloading dataset (first run only)...")
+
+        urllib.request.urlretrieve(DATA_URL, DATA_PATH)
+
+    return pd.read_pickle(DATA_PATH)
 
 all_listings = load_data()
 
