@@ -1,0 +1,5 @@
+[project]
+name = "ai-marketplace-search"
+version = "0.1.0"
+description = "Conversational AI search for marketplace-style listings"
+requires-python = ">=3.9"
