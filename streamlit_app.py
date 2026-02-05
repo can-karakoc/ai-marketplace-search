@@ -45,7 +45,7 @@ def load_data():
     
     df["description_embedding"] = df["description_embedding"].apply(str_to_array)
 
-    return df
+    return df.head(100)
 
 all_listings = load_data()
 
