@@ -18,11 +18,8 @@ st.set_page_config(
 )
 
 st.title("🏠 Airbnb Marketplace Search")
-st.markdown(
-    "Cities available: London, Barcelona, Rome, Amsterdam",
-    "Search rental listings using **LLM-free local intent extraction + semantic ranking**."
-
-)
+st.markdown("Cities available: London, Barcelona, Rome, Amsterdam")
+st.markdown("Search rental listings using **LLM-free local intent extraction + embeddings**.")
 
 # ------------------------------------------------------------
 # Load Data (Cached)
