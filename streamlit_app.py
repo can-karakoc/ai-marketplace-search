@@ -5,6 +5,9 @@ import numpy as np
 import urllib.request
 import pandas as pd
 import pydeck as pdk
+import pyarrow.parquet as pq
+import urllib.request
+import io
 from search_utils import (
     search_listings,
     embed_query,
@@ -30,24 +33,31 @@ DATA_URL = "https://huggingface.co/datasets/cankarakoc/ai-marketplace-search/res
 MAPBOX_API_KEY = os.environ.get("MAPBOX_API_KEY")
 os.environ["MAPBOX_API_KEY"] = MAPBOX_API_KEY
 
+DATA_URL = "https://huggingface.co/datasets/cankarakoc/ai-marketplace-search/resolve/main/listings.parquet"
 
 @st.cache_data
-def load_data():
-    df = pd.read_parquet(DATA_URL)
-
+def load_data(n_rows=100):
+    # Download the parquet file into memory (only once)
+    with urllib.request.urlopen(DATA_URL) as f:
+        file_bytes = io.BytesIO(f.read())
+    
+    # Use pyarrow to read only the first n_rows
+    table = pq.read_table(file_bytes, columns=None)
+    df = table.to_pandas().head(n_rows)
+    
+    # Convert embeddings safely
     def str_to_array(s):
         if isinstance(s, str):
-            # Replace multiple spaces with a single comma
             s_clean = s.replace('[','').replace(']','').strip()
-            s_clean = ",".join(s_clean.split())  # split on spaces, join with commas
+            s_clean = ",".join(s_clean.split())
             return np.fromstring(s_clean, sep=',', dtype=np.float32)
         return np.array(s, dtype=np.float32)
     
     df["description_embedding"] = df["description_embedding"].apply(str_to_array)
+    return df
 
-    return df.head(100)
-
-all_listings = load_data()
+all_listings = load_data(n_rows=100)
+st.write(f"Loaded {len(all_listings)} listings")
 
 # ------------------------------------------------------------
 # Safe Intent Wrapper (Local)
