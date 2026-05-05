@@ -1,0 +1,8 @@
+{
+  "name": "ai-marketplace-search-vercel",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist && cp index.html listings_preview.json dist/"
+  }
+}

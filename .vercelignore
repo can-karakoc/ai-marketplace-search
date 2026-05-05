@@ -1,0 +1,14 @@
+.venv/
+.vercel-venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+notebook.ipynb
+.DS_Store
+data/
+streamlit_app.py
+search_utils.py
+requirements.txt
+api/
+public/
+requirements-vercel.txt
