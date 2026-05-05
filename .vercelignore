@@ -12,3 +12,5 @@ requirements.txt
 api/
 public/
 requirements-vercel.txt
+pyproject.toml
+.vercel/output/

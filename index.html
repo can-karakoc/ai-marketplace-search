@@ -228,7 +228,7 @@
       }
 
       async function boot() {
-        const response = await fetch('/listings_preview.json');
+        const response = await fetch('/listings_preview.json?v=20260505-city-balanced');
         listings = await response.json();
         form.addEventListener('submit', search);
         form.requestSubmit();
